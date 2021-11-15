@@ -3,15 +3,15 @@ import { Schema } from "mongoose";
 
 
 interface Food{
-    name: string;
-    description: string;
+    Name: string;
+    Description: string;
 }
 
 
 
 
 const schema = new Schema<Food>({
-    name: { type: String, required: true, validate: {
+    Name: { type: String, required: true, validate: {
         validator: function (value: string) {
             const re = /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u
 
@@ -21,7 +21,7 @@ const schema = new Schema<Food>({
             return true
         }
     }},
-    description: { type: String, required: false }
+    Description: { type: String, required: false }
 
 });
 
