@@ -25,11 +25,16 @@ export async function getFood(): Promise <any> {
 
 /// Function post food
 
-export async function postFood(Name: string, Description: string) : Promise <void> {
+export async function postFood(Name: string, Description?: string) : Promise <void> {
   
   try{
+    if(Description){
 
-    await FoodModel.create({ Name, Description})
+      await FoodModel.create({ Name, Description})
+
+    }else{
+      await FoodModel.create({ Name })
+    }
 
   }
   catch(err: any){

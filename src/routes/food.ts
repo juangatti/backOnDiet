@@ -23,7 +23,7 @@ route.post('/', async(req: Request, res: Response, next: NextFunction) => {
     const { Name, Description } = req.body
     await postFood(Name, Description)
 
-    res.send('Created')
+    res.json({ Name, Description })
   }
   catch(err: any){
     next(err)
