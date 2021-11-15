@@ -1,13 +1,10 @@
 import { FoodModel } from '../models/models'
 
-
-/// interfaces
 interface foodContent {
   _id: string;
   Name: string;
   Description: string;
 }
-
 /// Function get all foods
 export async function getFood(): Promise <any> {
   try{
@@ -19,7 +16,7 @@ export async function getFood(): Promise <any> {
 
   }catch(err: any){
     
-    return console.error(err)
+    return console.log(err)
   }
 }
 
