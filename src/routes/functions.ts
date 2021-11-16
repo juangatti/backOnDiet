@@ -1,14 +1,97 @@
-import { FoodModel } from '../models/models'
+import { FoodModel, UserModel } from '../models/models'
+import argon2 from 'argon2'
+import { validationEmail, validationName } from './validations'
 
-export async function getFood(): Promise <any> {
-  try{
 
-    const data = await FoodModel.find().lean()
+interface foodContent {
+  _id: string;
+  Name: string;
+  Description: string;
+}
+
+interface userContent {
+  _id: string;
+  admin: boolean;
+  firstName: string;
+  lastName: string;
+  mail: string;
+  password: string;
+  phone: string;
+  adress: string;
+}
+
+
+
+/// Function get all foods
+export async function getFood(): Promise<any> {
+  try {
+
+
+    const data: Array<foodContent> = await FoodModel.find().lean()
 
     return data
 
-  }catch(err: any){
-    
-    throw Error(err)
+  } catch (err: any) {
+
+    return console.log(err)
+  }
+}
+
+/// Function post food
+
+export async function postFood(Name: string, Description?: string): Promise<void> {
+
+  try {
+    if (Description) {
+
+      await FoodModel.create({ Name, Description })
+
+    } else {
+      await FoodModel.create({ Name })
+    }
+
+  }
+  catch (err: any) {
+    console.log(err)
+  }
+}
+
+
+/// Function get users  
+export async function getUser(mail: string, password: string): Promise<any> {
+  try {
+    const data: userContent = await UserModel.findOne({ mail }).lean()
+
+    if (await argon2.verify(data.password, password)) {
+      // password match
+      return data
+    } else {
+      // password did not match
+      return null
+    }
+
+  } catch (err: any) {
+
+    return console.log(err)
+  }
+}
+
+
+//function post user
+export async function postUser(firstName: string, lastName: string, mail: string, password: string, phone: string, adress: string): Promise<any> {
+  try {
+    let emailValidate = validationEmail(mail)
+    let nameValidate = validationName(firstName)
+    let lastNameValidate = validationName(lastName)
+
+    if (emailValidate && nameValidate && lastNameValidate) {
+      let hash = await argon2.hash(password);
+      await UserModel.create({ firstName, lastName, mail, password: hash, phone, adress })
+      return true
+    } else {
+      return false
+    }
+  } catch (err: any) {
+    console.log("error en functions")
   }
 }
