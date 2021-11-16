@@ -1,6 +1,6 @@
 import { FoodModel, UserModel, CominacionsModel } from '../models/models'
 import argon2 from 'argon2'
-import { validationEmail, validationName } from './validations'
+import { validationEmail, validationName, validationIdMongoDB } from './validations'
 
 
 interface foodContent {
@@ -99,7 +99,7 @@ export async function putFood(id : string, Name : string, Description : string):
   }
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 /// Function get users  
 export async function getUser(mail: string, password: string): Promise<any> {
@@ -140,8 +140,20 @@ export async function postUser(firstName: string, lastName: string, mail: string
   }
 }
 
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// function put User
+export async function putUser(id:string, firstName: string, lastName: string, mail: string, password: string, phone: string, adress: string): Promise<any> {
+  try {
+    await UserModel.findByIdAndUpdate({ _id: id }, { firstName, lastName, mail, password, phone, adress })
+    const compare: userContent | null = await UserModel.findById({ _id: id })
+    if(compare && compare.firstName === firstName && compare.lastName === lastName && compare.mail === mail && compare.phone === phone && compare.adress === adress){
+      return compare
+    }else{
+      return null
+    }
+  } catch (err: any) {
+    console.log("error en functions")
+  }
+}
 
 /// Function post combinations
 export async function postCombinations( Lunch: string, LunchDessert: string, Dinner: string, DinnerDessert: string ): Promise<any>{
@@ -155,6 +167,17 @@ export async function postCombinations( Lunch: string, LunchDessert: string, Din
     return { Lunch, LunchDessert, Dinner, DinnerDessert}
   }
   catch(err : any) {
+  console.log(err)
+
+  }
+}
+
+
+export async function deleteUser(id: string): Promise<void> {
+  try {
+    validationIdMongoDB(id)
+    await UserModel.findByIdAndDelete({ _id: id }) 
+  } catch (err: any) {
     console.log(err)
   }
 }

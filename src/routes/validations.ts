@@ -23,3 +23,6 @@ export const validationName = (name: string) => {
     return true
 }
 
+export const validationIdMongoDB = (id: string) => {
+    if (id.length !== 24) throw new Error(`${id} no es un id válido`)
+}
