@@ -8,10 +8,10 @@ interface Combinations {
 }
 
 const schema = new Schema<Combinations>({
-  Lunch: { type: Schema.Types.ObjectId, required: true },
-  LunchDessert: { type: Schema.Types.ObjectId, required: false },
-  Dinner: { type: Schema.Types.ObjectId, required: true },
-  DinnerDessert: { type: Schema.Types.ObjectId, required: false }
+  Lunch: { type: Schema.Types.ObjectId, required: true, ref:'food' },
+  LunchDessert: { type: Schema.Types.ObjectId, required: false, ref:'food' },
+  Dinner: { type: Schema.Types.ObjectId, required: true, ref:'food' },
+  DinnerDessert: { type: Schema.Types.ObjectId, required: false, ref:'food' }
 })
 
 export default schema

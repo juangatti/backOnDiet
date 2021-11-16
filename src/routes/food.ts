@@ -40,7 +40,7 @@ route.post('/', async(req: Request, res: Response, next: NextFunction) => {
 })
 
 
-route.put('/changed', async (req: Request, res: Response, next: NextFunction) => {
+route.put('/Changed', async (req: Request, res: Response, next: NextFunction) => {
 
   try{
 

@@ -144,10 +144,17 @@ export async function postUser(firstName: string, lastName: string, mail: string
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// Function post combinations
-export async function postCombinations( Launch: string, LunchDessert: string, Dinner: string, DinnerDessert: string ): Promise<any>{
+export async function postCombinations( Lunch: string, LunchDessert: string, Dinner: string, DinnerDessert: string ): Promise<any>{
 
+  try{
 
-  await CominacionsModel.create({ Launch, LunchDessert, Dinner, DinnerDessert})
+    console.log('KFGNASUDOFHNOISUDF')
+    await CominacionsModel.create({ Lunch, LunchDessert, Dinner, DinnerDessert})
   
-  return { Launch, LunchDessert, Dinner, DinnerDessert}
+    console.log('Batman')
+    return { Lunch, LunchDessert, Dinner, DinnerDessert}
+  }
+  catch(err : any) {
+    console.log(err)
+  }
 }
