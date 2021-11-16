@@ -32,7 +32,7 @@ export async function getFood(): Promise<any> {
 
   } catch (err: any) {
 
-    return console.log(err)
+    throw Error(err)
   }
 }
 
@@ -42,10 +42,8 @@ export async function postFood(Name: string, Description?: string) : Promise <an
   
   try{
 
-    if(validationName(Name) === false){
+    validationName(Name)
       
-      return null
-    }
 
     const compare: foodContent | null  = await FoodModel.findOne({ Name }).lean()
 
@@ -67,7 +65,7 @@ export async function postFood(Name: string, Description?: string) : Promise <an
 
   }
   catch (err: any) {
-    console.log(err)
+    throw Error(err)
   }
 }
 
@@ -77,9 +75,8 @@ export async function putFood(id : string, Name : string, Description : string):
 
   try{
 
-    if(validationName(Name) === false){
-      return null
-    }
+    validationName(Name) 
+    validationIdMongoDB(id)
 
     await FoodModel.findByIdAndUpdate({_id: id}, {Name, Description})
 
@@ -95,7 +92,7 @@ export async function putFood(id : string, Name : string, Description : string):
     }
   }
   catch(err: any){
-    console.log(err)
+    throw Error(err)
   }
 }
 
@@ -115,43 +112,57 @@ export async function getUser(mail: string, password: string): Promise<any> {
     }
 
   } catch (err: any) {
-
-    return console.log(err)
+    throw Error(err)
   }
 }
 
 
-//function post user
+/// function post user
 export async function postUser(firstName: string, lastName: string, mail: string, password: string, phone: string, adress: string): Promise<any> {
   try {
-    let emailValidate = validationEmail(mail)
-    let nameValidate = validationName(firstName)
-    let lastNameValidate = validationName(lastName)
+    
+    validationEmail(mail)
+    validationName(firstName)
+    validationName(lastName)
 
-    if (emailValidate && nameValidate && lastNameValidate) {
-      let hash = await argon2.hash(password);
-      await UserModel.create({ firstName, lastName, mail, password: hash, phone, adress })
-      return true
-    } else {
-      return false
-    }
+    let hash = await argon2.hash(password)
+
+    await UserModel.create({ firstName, lastName, mail, password: hash, phone, adress })
+    return true
+
   } catch (err: any) {
-    console.log("error en functions")
+    throw Error(err)
   }
 }
 
-// function put User
+/// function put User
 export async function putUser(id:string, firstName: string, lastName: string, mail: string, password: string, phone: string, adress: string): Promise<any> {
   try {
+    validationIdMongoDB(id)
+
     await UserModel.findByIdAndUpdate({ _id: id }, { firstName, lastName, mail, password, phone, adress })
+
     const compare: userContent | null = await UserModel.findById({ _id: id })
+
     if(compare && compare.firstName === firstName && compare.lastName === lastName && compare.mail === mail && compare.phone === phone && compare.adress === adress){
       return compare
     }else{
       return null
     }
   } catch (err: any) {
-    console.log("error en functions")
+    throw Error(err)
+  }
+}
+
+/// Function Delete user
+export async function deleteUser(id: string): Promise<void> {
+  try {
+    validationIdMongoDB(id)
+    await UserModel.findByIdAndDelete({ _id: id }) 
+
+  } catch (err: any) {
+
+    throw Error(err)
   }
 }
 
@@ -159,25 +170,29 @@ export async function putUser(id:string, firstName: string, lastName: string, ma
 export async function postCombinations( Lunch: string, LunchDessert: string, Dinner: string, DinnerDessert: string ): Promise<any>{
 
   try{
+    validationIdMongoDB(Lunch)
+    validationIdMongoDB(LunchDessert)
+    validationIdMongoDB(Dinner)
+    validationIdMongoDB(DinnerDessert)
 
-    console.log('KFGNASUDOFHNOISUDF')
     await CominacionsModel.create({ Lunch, LunchDessert, Dinner, DinnerDessert})
   
-    console.log('Batman')
     return { Lunch, LunchDessert, Dinner, DinnerDessert}
   }
   catch(err : any) {
-  console.log(err)
-
+    throw Error(err)
   }
 }
 
+export async function getCombinations(): Promise<any>{
 
-export async function deleteUser(id: string): Promise<void> {
-  try {
-    validationIdMongoDB(id)
-    await UserModel.findByIdAndDelete({ _id: id }) 
-  } catch (err: any) {
-    console.log(err)
+  try{
+
+    const data = await CominacionsModel.find().populate( 'food').lean()
+
+    return data
+  }
+  catch(err : any) {
+    throw Error(err)
   }
 }

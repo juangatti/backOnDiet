@@ -5,10 +5,8 @@ export const validationEmail = (email: string) => {
 
     if(!re.test(email)){
         
-        return false
+        throw new Error(`${email} no es un id válido`)
     }
-
-    return true
 }
 
 export const validationName = (name: string) => {
@@ -17,10 +15,8 @@ export const validationName = (name: string) => {
 
     if(!re.test(name)){
         
-        return false
+        throw new Error(`${name} no es un id válido`)
     }
-
-    return true
 }
 
 export const validationIdMongoDB = (id: string) => {
