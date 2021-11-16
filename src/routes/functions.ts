@@ -1,4 +1,4 @@
-import { FoodModel, UserModel } from '../models/models'
+import { FoodModel, UserModel, CominacionsModel } from '../models/models'
 import argon2 from 'argon2'
 import { validationEmail, validationName } from './validations'
 
@@ -42,7 +42,12 @@ export async function postFood(Name: string, Description?: string) : Promise <an
   
   try{
 
-    const compare: foodContent | null  = await FoodModel.findOne({ Name })
+    if(validationName(Name) === false){
+      
+      return null
+    }
+
+    const compare: foodContent | null  = await FoodModel.findOne({ Name }).lean()
 
     if(compare !== null) {
 
@@ -72,9 +77,13 @@ export async function putFood(id : string, Name : string, Description : string):
 
   try{
 
+    if(validationName(Name) === false){
+      return null
+    }
+
     await FoodModel.findByIdAndUpdate({_id: id}, {Name, Description})
 
-    const compare: foodContent | null  = await FoodModel.findById({ _id: id })
+    const compare: foodContent | null  = await FoodModel.findById({ _id: id }).lean()
 
     if(compare && compare.Name ===  Name){
       
@@ -89,6 +98,8 @@ export async function putFood(id : string, Name : string, Description : string):
     console.log(err)
   }
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// Function get users  
 export async function getUser(mail: string, password: string): Promise<any> {
@@ -127,4 +138,16 @@ export async function postUser(firstName: string, lastName: string, mail: string
   } catch (err: any) {
     console.log("error en functions")
   }
+}
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/// Function post combinations
+export async function postCombinations( Launch: string, LunchDessert: string, Dinner: string, DinnerDessert: string ): Promise<any>{
+
+
+  await CominacionsModel.create({ Launch, LunchDessert, Dinner, DinnerDessert})
+  
+  return { Launch, LunchDessert, Dinner, DinnerDessert}
 }

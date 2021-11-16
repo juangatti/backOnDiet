@@ -6,6 +6,7 @@ import cors from 'cors'
 import bodyParser from 'body-parser'
 import food from './routes/food'
 import user from './routes/user'
+import combination from './routes/conbinatios'
 
 
 
@@ -27,7 +28,6 @@ async function Conexion(): Promise<void> {
 
 
 
-
 export default function App(port: number) {
 
 
@@ -46,6 +46,8 @@ export default function App(port: number) {
     /// Routes
     app.use('/food', food)
     app.use('/user', user)
+    app.use('/combination', combination)
+
     /// Listening
     app.listen(app.get('port'), () => {
         console.log(`Server is running on port ${app.get('port')}`)

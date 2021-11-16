@@ -40,12 +40,11 @@ route.post('/', async(req: Request, res: Response, next: NextFunction) => {
 })
 
 
-route.put('/:_id', async (req: Request, res: Response, next: NextFunction) => {
+route.put('/changed', async (req: Request, res: Response, next: NextFunction) => {
 
   try{
 
-    const { Name, Description } = req.body
-    const { _id } = req.params
+    const { _id, Name, Description } = req.body
 
     const data = await putFood(_id, Name, Description)
 
