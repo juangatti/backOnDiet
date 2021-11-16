@@ -5,6 +5,10 @@ import { connect } from 'mongoose'
 import cors from 'cors'
 import bodyParser from 'body-parser'
 import food from './routes/food'
+import user from './routes/user'
+
+
+
 
 dotenv.config()
 
@@ -41,7 +45,7 @@ export default function App(port: number) {
 
     /// Routes
     app.use('/food', food)
-
+    app.use('/user', user)
     /// Listening
     app.listen(app.get('port'), () => {
         console.log(`Server is running on port ${app.get('port')}`)
