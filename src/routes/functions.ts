@@ -26,7 +26,6 @@ interface userContent {
 export async function getFood(): Promise<any> {
   try {
 
-
     const data: Array<foodContent> = await FoodModel.find().lean()
 
     return data
@@ -39,15 +38,26 @@ export async function getFood(): Promise<any> {
 
 /// Function post food
 
-export async function postFood(Name: string, Description?: string): Promise<void> {
+export async function postFood(Name: string, Description?: string) : Promise <any> {
+  
+  try{
 
-  try {
-    if (Description) {
+    const compare: foodContent | null  = await FoodModel.findOne({ Name })
 
-      await FoodModel.create({ Name, Description })
+    if(compare !== null) {
 
-    } else {
+      return null
+    }
+
+    if(Description){
+
+      await FoodModel.create({ Name, Description})
+      return { Name, Description }
+
+    }else{
+
       await FoodModel.create({ Name })
+      return { Name }
     }
 
   }
@@ -56,6 +66,29 @@ export async function postFood(Name: string, Description?: string): Promise<void
   }
 }
 
+/// Function put food
+
+export async function putFood(id : string, Name : string, Description : string): Promise<any> {
+
+  try{
+
+    await FoodModel.findByIdAndUpdate({_id: id}, {Name, Description})
+
+    const compare: foodContent | null  = await FoodModel.findById({ _id: id })
+
+    if(compare && compare.Name ===  Name){
+      
+      return compare
+    }
+    else{
+      
+      return null
+    }
+  }
+  catch(err: any){
+    console.log(err)
+  }
+}
 
 /// Function get users  
 export async function getUser(mail: string, password: string): Promise<any> {
