@@ -1,4 +1,4 @@
-import { FoodModel, UserModel, CominacionsModel, DayModel } from '../models/models'
+import { FoodModel, UserModel, CominacionsModel } from '../models/models'
 import argon2 from 'argon2'
 import { validationEmail, validationName, validationIdMongoDB } from './validations'
 
@@ -189,55 +189,11 @@ export async function getCombinations(): Promise<any>{
 
   try{
 
-    const data = await CominacionsModel.findOne()
+    const data = await CominacionsModel.find()
       .populate({path: 'Lunch', select: 'Name'})
       .populate({path: 'LunchDessert', select: 'Name'})
       .populate({path: 'Dinner', select: 'Name'})
       .populate({path: 'DinnerDessert', select: 'Name'})
-      .lean()
-
-    return data
-  }
-  catch(err : any) {
-    throw Error(err)
-  }
-}
-
-/// Function post days
-export async function postDays(Monday: string,Tuesday: string, Wednesday: string, Thursday: string, Friday: string, Saturday: string, Sunday: string): Promise<any>{
-
-  try{
-    validationIdMongoDB(Monday)
-    validationIdMongoDB(Tuesday)
-    validationIdMongoDB(Wednesday)
-    validationIdMongoDB(Thursday)
-    validationIdMongoDB(Friday)
-    validationIdMongoDB(Saturday)
-    validationIdMongoDB(Sunday)
-
-    await DayModel.create({Monday,Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday})
-
-    return{Monday,Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday}
-  }
-  catch(err: any){
-    throw Error(err)
-  }
-}
-
-/// Function get days
-
-export async function getDays(): Promise<any> {
-  
-  try{
-
-    const data = await DayModel.findOne()
-      .populate({path: 'Monday'})
-      .populate({path: 'Tuesday'})
-      .populate({path: 'Wednesday'})
-      .populate({path: 'Thursday'})
-      .populate({path: 'Friday'})
-      .populate({path: 'Saturday'})
-      .populate({path: 'Sunday'})
       .lean()
 
     return data
