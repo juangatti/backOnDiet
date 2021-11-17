@@ -11,13 +11,13 @@ interface Days {
 }
 
 const schema = new Schema<Days>({
-  Monday: { type: Schema.Types.ObjectId, required: true },
-  Tuesday: { type: Schema.Types.ObjectId, required: true },
-  Wednesday: { type: Schema.Types.ObjectId, required: true },
-  Thursday: { type: Schema.Types.ObjectId, required: true },
-  Friday: { type: Schema.Types.ObjectId, required: true },
-  Saturday: { type: Schema.Types.ObjectId, required: true },
-  Sunday: { type: Schema.Types.ObjectId, required: true },
+  Monday: { type: Schema.Types.ObjectId, required: true, ref:'cominacion'  },
+  Tuesday: { type: Schema.Types.ObjectId, required: true, ref:'cominacion' },
+  Wednesday: { type: Schema.Types.ObjectId, required: true, ref:'cominacion' },
+  Thursday: { type: Schema.Types.ObjectId, required: true, ref:'cominacion' },
+  Friday: { type: Schema.Types.ObjectId, required: true, ref:'cominacion' },
+  Saturday: { type: Schema.Types.ObjectId, required: true, ref:'cominacion' },
+  Sunday: { type: Schema.Types.ObjectId, required: true, ref:'cominacion' },
 });
 
 export default schema

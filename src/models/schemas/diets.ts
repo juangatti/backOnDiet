@@ -8,10 +8,10 @@ interface Diet {
 }
 
 const schema = new Schema<Diet>({
-  FirstWeek: { type: Schema.Types.ObjectId, required: true },
-  SecondWeek: { type: Schema.Types.ObjectId, required: false },
-  ThirdWeek: { type: Schema.Types.ObjectId, required: false },
-  FourthWeek: { type: Schema.Types.ObjectId, required: false }
+  FirstWeek: { type: Schema.Types.ObjectId, required: true , ref:"day"},
+  SecondWeek: { type: Schema.Types.ObjectId, required: false, ref: "day" },
+  ThirdWeek: { type: Schema.Types.ObjectId, required: false, ref: "day" },
+  FourthWeek: { type: Schema.Types.ObjectId, required: false, ref: "day" }
 })
 
 export default schema
