@@ -1,4 +1,4 @@
-import { FoodModel, UserModel, CominacionsModel } from '../models/models'
+import { FoodModel, UserModel, CominacionsModel,DietModel } from '../models/models'
 import argon2 from 'argon2'
 import { validationEmail, validationName, validationIdMongoDB } from './validations'
 
@@ -19,6 +19,8 @@ interface userContent {
   phone: string;
   adress: string;
 }
+
+
 
 
 
@@ -194,6 +196,22 @@ export async function getCombinations(): Promise<any>{
       .populate({path: 'LunchDessert', select: 'Name'})
       .populate({path: 'Dinner', select: 'Name'})
       .populate({path: 'DinnerDessert', select: 'Name'})
+      .lean()
+
+    return data
+  }
+  catch(err : any) {
+    throw Error(err)
+  }
+}
+
+
+export async function getDiets() : Promise<any>{
+
+  try{
+
+    const data = await DietModel.find()
+      .populate({path: 'Week.Combinations', select: 'Name'})
       .lean()
 
     return data
