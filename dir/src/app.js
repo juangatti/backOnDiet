@@ -19,6 +19,8 @@ const mongoose_1 = require("mongoose");
 const cors_1 = __importDefault(require("cors"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const food_1 = __importDefault(require("./routes/food"));
+const user_1 = __importDefault(require("./routes/user"));
+const conbinatios_1 = __importDefault(require("./routes/conbinatios"));
 dotenv_1.default.config();
 function Conexion() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -44,6 +46,8 @@ function App(port) {
     app.use((0, cors_1.default)());
     /// Routes
     app.use('/food', food_1.default);
+    app.use('/user', user_1.default);
+    app.use('/combination', conbinatios_1.default);
     /// Listening
     app.listen(app.get('port'), () => {
         console.log(`Server is running on port ${app.get('port')}`);

@@ -1,6 +1,6 @@
-import express, { Request, Response, NextFunction, Application } from 'express'
+import express, { Request, Response, NextFunction, Application, Router } from 'express'
 
-import { getUser, postUser} from './functions'
+import { getUser, postUser, putUser, deleteUser } from './functions'
 const route: Application = express()
 
 
@@ -43,7 +43,36 @@ route.post('/', async (req: Request, res: Response, next: NextFunction) => {
     }
 })
 
+route.put('/ChangeUser', async (req:Request, res: Response, next: NextFunction )=>{
+  try{
+      
+      const {firstName, lastName, mail, password, phone, adress, _id} = req.body
+      const data = await putUser(firstName, lastName, mail, password, phone, adress, _id)
+      
+  
+      if(data !== null){
+          res.status(201).json({message: 'Succefully change user'})
+      }
+      else{
+          res.status(404).json({message: 'User already exists'})
+      }
+  } catch(err: any){
+    next(err)
+  }
+})
 
+
+route.delete('/ChangeUser', async (req: Request, res: Response, next: NextFunction) => {
+  const {id} = req.body
+  try{
+    await deleteUser(id)
+
+    res.status(201).json({message: 'User deleted'})
+
+  } catch(err: any){
+    next(err) 
+  }
+})
 
 
 
