@@ -1,6 +1,6 @@
 import { FoodModel, UserModel, CominacionsModel,DietModel } from '../models/models'
 import argon2 from 'argon2'
-import { validationEmail, validationName, validationIdMongoDB } from './validations'
+import { validationEmail, validationName, validationIdMongoDB, ValidationArray } from './validations'
 
 
 interface foodContent {
@@ -20,9 +20,9 @@ interface userContent {
   adress: string;
 }
 
-
-
-
+interface day {
+  Combinations: string;
+}
 
 /// Function get all foods
 export async function getFood(): Promise<any> {
@@ -205,7 +205,7 @@ export async function getCombinations(): Promise<any>{
   }
 }
 
-
+//// Function get Diets
 export async function getDiets() : Promise<any>{
 
   try{
@@ -217,6 +217,22 @@ export async function getDiets() : Promise<any>{
     return data
   }
   catch(err : any) {
+    throw Error(err)
+  }
+}
+
+/// Function post Diet
+
+export async function postDiets(Name: string, Week: Array<day>): Promise<any> {
+
+  try{
+    ValidationArray(Week)
+    
+    await DietModel.create({ Name, Week })
+
+    return { Name, Week}
+  }
+  catch (err: any) {
     throw Error(err)
   }
 }

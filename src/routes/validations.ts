@@ -1,3 +1,6 @@
+interface day {
+    Combinations: string;
+}
 
 export const validationEmail = (email: string) => {
 
@@ -21,4 +24,10 @@ export const validationName = (name: string) => {
 
 export const validationIdMongoDB = (id: string) => {
     if (id.length !== 24) throw new Error(`${id} no es un id válido`)
+}
+
+
+export const ValidationArray = (array: Array<day>) => {
+
+    if(array.length > 30) throw new Error('Se ingreso mas del numero maximo de Combinaciones posibles')
 }

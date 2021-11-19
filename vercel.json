@@ -11,5 +11,6 @@
           "src": "/(.*)",
           "dest": "/"
       }
-  ]
+  ],
+  "rewrites": [{ "source": "/(.*)", "destination": "/src/routes/404.ts" }]
 }
