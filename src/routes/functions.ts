@@ -120,16 +120,16 @@ export async function getUser(mail: string, password: string): Promise<any> {
 
 
 /// function post user
-export async function postUser(firstName: string, lastName: string, mail: string, password: string, phone: string, adress: string): Promise<any> {
+export async function postUser(firstName: string, lastName: string, mail: string, password: string, phone: string, adress: string, location: string): Promise<any> {
   try {
     
     validationEmail(mail)
     validationName(firstName)
     validationName(lastName)
-
+    validationName(location)
     let hash = await argon2.hash(password)
 
-    await UserModel.create({ firstName, lastName, mail, password: hash, phone, adress })
+    await UserModel.create({ firstName, lastName, mail, password: hash, phone, adress, location })
     return true
 
   } catch (err: any) {

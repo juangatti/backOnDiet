@@ -4,11 +4,11 @@ import { getUser, postUser, putUser, deleteUser } from './functions'
 const route: Application = express()
 
 
-route.get('/', async (req: Request, res: Response, next: NextFunction) => {
+route.get('/:mail/:password', async (req: Request, res: Response, next: NextFunction) => {
 
   try{
     
-    const {mail, password} = req.body
+    const {mail, password} = req.params
 
     const data = await getUser(mail, password)
   
@@ -27,8 +27,8 @@ route.get('/', async (req: Request, res: Response, next: NextFunction) => {
 route.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try{
 
-       const {firstName, lastName, mail, password, phone, adress} = req.body
-       const data = await postUser(firstName, lastName, mail, password, phone, adress)
+       const {firstName, lastName, mail, password, phone, adress, location} = req.body
+       const data = await postUser(firstName, lastName, mail, password, phone, adress, location)
         
 
         if(data === true){
