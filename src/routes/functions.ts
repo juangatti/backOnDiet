@@ -169,7 +169,7 @@ export async function deleteUser(id: string): Promise<void> {
 }
 
 /// Function post combinations
-export async function postCombinations( Lunch: string, LunchDessert: string, Dinner: string, DinnerDessert: string ): Promise<any>{
+export async function postCombinations( Name: string ,Lunch: string, LunchDessert: string, Dinner: string, DinnerDessert: string ): Promise<any>{
 
   try{
     validationIdMongoDB(Lunch)
@@ -177,7 +177,7 @@ export async function postCombinations( Lunch: string, LunchDessert: string, Din
     validationIdMongoDB(Dinner)
     validationIdMongoDB(DinnerDessert)
 
-    await CominacionsModel.create({ Lunch, LunchDessert, Dinner, DinnerDessert})
+    await CominacionsModel.create({ Name, Lunch, LunchDessert, Dinner, DinnerDessert})
   
     return { Lunch, LunchDessert, Dinner, DinnerDessert}
   }

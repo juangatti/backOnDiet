@@ -6,9 +6,9 @@ const routes: Application = express()
 routes.post('/', async (req: Request, res: Response, next: NextFunction) => {
 
   try{
-    const { Launch, LunchDessert, Dinner, DinnerDessert } = req.body
+    const { Name, Launch, LunchDessert, Dinner, DinnerDessert } = req.body
     
-    const data = await postCombinations( Launch, LunchDessert, Dinner, DinnerDessert )
+    const data = await postCombinations( Name, Launch, LunchDessert, Dinner, DinnerDessert )
     
     res.json( data)
     
