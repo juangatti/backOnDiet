@@ -12,11 +12,8 @@ route.get('/:mail/:password', async (req: Request, res: Response, next: NextFunc
 
     const data = await getUser(mail, password)
   
-    if(data !== null){
     res.json(data)
-    } else {
-      res.status(404).json({message: 'Wrong Password'})
-    }
+    
   }catch(err){
     next(err)
   }
@@ -27,16 +24,10 @@ route.get('/:mail/:password', async (req: Request, res: Response, next: NextFunc
 route.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try{
 
-       const {firstName, lastName, mail, password, phone, adress, location} = req.body
-       const data = await postUser(firstName, lastName, mail, password, phone, adress, location)
-        
+       const { firstName, lastName, mail, password, phone, adress, location, postalCode } = req.body
+       const data = await postUser(firstName, lastName, mail, password, phone, adress, location, postalCode)
 
-        if(data === true){
-            res.status(201).json({message: 'User created'})
-        }
-        else{
-            res.status(404).json({message: 'User already exists'})
-        }
+        res.json(data)
     }
     catch(err: any){
       next(err)
