@@ -12,7 +12,7 @@ interface User {
   password: string;
   phone: string;
   adress: string;
-
+  postalCode: string;
 }
 
 /*
@@ -52,7 +52,8 @@ const schema = new Schema<User>({
   } },
   password: { type: String, required: true },
   phone: { type: String, required: true },
-  adress: { type: String, required: true }
+  adress: { type: String, required: true },
+  postalCode: { type: String, required: true },
 
 })
 
