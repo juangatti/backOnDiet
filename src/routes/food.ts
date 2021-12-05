@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction, Application } from 'express'
-import { getFood, postFood, putFood } from './functions'
+import { getFood, postFood, putFood, deleteFood } from './functions'
 
 const route: Application = express()
 
@@ -62,4 +62,24 @@ route.put('/Changed', async (req: Request, res: Response, next: NextFunction) =>
   }
 })
 
+route.delete('/Deleted', async (req: Request, res: Response, next: NextFunction) => {
+
+  try{
+
+    const { _id } = req.body
+    const data = await deleteFood(_id)
+   
+    if(data == null){
+
+      res.json(data)
+    }
+    else{
+
+      res.status(502).json({ message: 'No deleted'})
+    }
+  }
+  catch(err: any){
+    next(err)
+  }
+})
 export default route

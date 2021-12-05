@@ -7,7 +7,6 @@ const routes: Application = express()
 routes.get('/', async (req: Request, res: Response, next: NextFunction) => {
 
     try{
-  
       const data = await getDiets()
   
       res.json(data)

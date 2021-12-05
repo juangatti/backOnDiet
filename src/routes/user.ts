@@ -37,8 +37,8 @@ route.post('/', async (req: Request, res: Response, next: NextFunction) => {
 route.put('/ChangeUser', async (req:Request, res: Response, next: NextFunction )=>{
   try{
       
-      const {firstName, lastName, mail, password, phone, adress, _id} = req.body
-      const data = await putUser(firstName, lastName, mail, password, phone, adress, _id)
+      const {firstName, lastName, mail, password, phone, adress, _id, token} = req.body
+      const data = await putUser(firstName, lastName, mail, password, phone, adress, _id, token)
       
   
       if(data !== null){
@@ -54,9 +54,9 @@ route.put('/ChangeUser', async (req:Request, res: Response, next: NextFunction )
 
 
 route.delete('/ChangeUser', async (req: Request, res: Response, next: NextFunction) => {
-  const {id} = req.body
+  const {id, token} = req.body
   try{
-    await deleteUser(id)
+    await deleteUser(id, token)
 
     res.status(201).json({message: 'User deleted'})
 
