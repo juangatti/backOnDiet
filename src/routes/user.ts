@@ -4,13 +4,13 @@ import { getUser, postUser, putUser, deleteUser } from './functions'
 const route: Application = express()
 
 
-route.get('/:mail/:password', async (req: Request, res: Response, next: NextFunction) => {
+route.get('/:mail/:password/:token', async (req: Request, res: Response, next: NextFunction) => {
 
   try{
     
-    const {mail, password} = req.params
+    const { mail, password, token } = req.params
 
-    const data = await getUser(mail, password)
+    const data = await getUser(mail, password, token)
   
     res.json(data)
     

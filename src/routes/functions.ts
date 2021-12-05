@@ -100,15 +100,16 @@ export async function putFood(id : string, Name : string, Description : string):
   }
 }
 
-
-
 /// Function get users  
-export async function getUser(mail: string, password: string): Promise<any> {
+export async function getUser(mail: string, password: string, token?: string): Promise<any> {
   try {
     const data: userContent = await UserModel.findOne({ mail }).lean()
-
+    
+    if(token) {
+      const verify = await jwt.verify(token, process.env.TOKEN_SECRET || 'secret')
+    }
     // password match
-    if (await argon2.verify(data.password, password)) {
+    if (await argon2.verify(data.password, password) ) {
       // Create new token
       const token = jwt.sign({_id: data._id}, process.env.TOKEN_SECRET || 'secret', { expiresIn: "12h"})
 
@@ -123,7 +124,6 @@ export async function getUser(mail: string, password: string): Promise<any> {
   }
 }
 
-
 /// function post user
 export async function postUser(firstName: string, lastName: string, mail: string, password: string, phone: string, adress: string, location: string, postalCode: string): Promise<any> {
   try {
@@ -136,12 +136,11 @@ export async function postUser(firstName: string, lastName: string, mail: string
     let hash = await argon2.hash(password)
 
     const data = await UserModel.create({ firstName, lastName, mail, password: hash, phone, adress, location, postalCode })
-    
+
     // Create new token
     const token = jwt.sign({_id: data._id}, process.env.TOKEN_SECRET || 'secret', { expiresIn: "12h"})
 
     return { token, firstName, lastName, mail, password }
-
   } catch (err: any) {
     throw Error(err)
   }
@@ -232,7 +231,6 @@ export async function getDiets() : Promise<any>{
 }
 
 /// Function post Diet
-
 export async function postDiets(Name: string, Price: number, Week: Array<day>): Promise<any> {
 
   try{
