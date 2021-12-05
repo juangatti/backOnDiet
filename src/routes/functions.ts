@@ -100,7 +100,17 @@ export async function putFood(id : string, Name : string, Description : string):
   }
 }
 
+// Function Delete food
+export async function deleteFood(id: string): Promise<void> {
+  try {
+    validationIdMongoDB(id)
+    await FoodModel.findByIdAndDelete({ _id: id })
 
+  } catch (err: any) {
+
+    throw Error(err)
+  }
+}
 
 /// Function get users  
 export async function getUser(mail: string, password: string): Promise<any> {
